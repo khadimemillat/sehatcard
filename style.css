@@ -1,0 +1,88 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "poppins";
+}
+
+.container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.branding {
+    text-align: center;
+    margin: 10px auto 30px auto;
+}
+
+.branding h1 {
+    color: rgb(2, 2, 154);
+}
+
+.picAria {
+    min-height: 60px;
+    align-items: baseline;
+}
+
+.picAria img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1px solid black;
+    display: block;
+    margin: 10px auto 30px auto;
+}
+
+.mainProfile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    margin: 60px 40px;
+    justify-content: space-between;
+}
+
+.colLeft {
+    text-align: end;
+}
+
+.colRight {
+    text-align: start;
+}
+
+.name,
+.aadhaar {
+    font-weight: bold;
+    background-color: aqua;
+    padding: 0px 6px 0px 0px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 120px;
+}
+
+.family h2 {
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+th,
+td {
+    width: auto;
+    min-width: 80px;
+}
