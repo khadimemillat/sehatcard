@@ -98,7 +98,7 @@ try {
           <p class="masjid">${profileData.at || '___'}</p> <br>
           <p class="dob">${fields[0].dob || '___'}</p> <br>
           <p class="aadhaar">${profileData.aadhaarNumber || '___'}</p> <br>
-          <p class="mob">${profileData.phoneNo || '___'}</p>
+<p class="mob"><a href="tel:${profileData.phoneNo}">${profileData.phoneNo || '___'}</a></p>
         `;
 
         // Update family members data
