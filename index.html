@@ -8,58 +8,121 @@
     <title>Profile</title>
 </head>
 <body>
-    <div class="container">
-        <div class="branding">
-            <p>A'azazi Sehat Card</p>
-            <h1>Khadim-e-Millat Welfare Foundation</h1>
-        </div>
-        <div class="picAria">
-            <img src="icon.webp" alt="Profile Photo">
-        </div>
-        <div class="mainProfile">
-            <div class="colLeft">
-                <h4>Masjid</h4> <br>
-                <h4>Name</h4> <br>
-                <h4>Designation</h4> <br>
-                <h4>DOB.</h4> <br>
-                <h4>Aadhaar No.</h4> <br>
-                <h4>Father's Name</h4> <br>
-                <h4>Phone No.</h4>
-            </div>
-            <div class="colRight">
-                <p class="masjid">Ibrahimiya, Bhathat</p> <br>
-                <p class="name">Mohd usoof</p> <br>
-                <p class="designation">Imam, Mudarris</p> <br>
-                <p class="dob">10/04/1997</p> <br>
-                <p class="aadhaar">532993881543</p> <br>
-                <p class="fName">Mohd Ismail</p> <br>
-                <p class="mob">8112888483</p>
-            </div>
-        </div>
-        <div class="family">
-            <h2>Family Members</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Relation</th>
-                        <th>Name</th>
-                        <th>Aadhaar No.</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Wife</td>
-                        <td>Zainab Khatoon</td>
-                        <td>804854511824</td>
-                    </tr>
-                    <tr>
-                        <td>Son</td>
-                        <td>Sumama Yusuf</td>
-                        <td>Null</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="container">
+    <div class="branding">
+      <p>A'azazi Sehat Card</p>
+      <h1>Khadim-e-Millat Welfare Foundation</h1>
     </div>
+    <div class="picAria">
+      <img src="icon.webp" alt="Profile Photo" id="profilePhoto">
+    </div>
+    <div class="mainProfile">
+      <div class="colLeft">
+        <h4>Name</h4> <br>
+        <h4>Father's Name</h4> <br>
+        <h4>Designation</h4> <br>
+        <h4>At</h4> <br>
+        <h4>DOB</h4> <br>
+        <h4>Aadhaar No.</h4> <br>
+        <h4>Phone No.</h4>
+      </div>
+      <div class="colRight" id="profileData">
+        <!-- Profile data will be dynamically populated here -->
+      </div>
+    </div>
+    <div class="family" id="familySection">
+      <h2>Family Members</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Sr</th>
+            <th>Name</th>
+            <th>Relation</th>
+            <th>Aadhaar No.</th>
+          </tr>
+        </thead>
+        <tbody id="familyData">
+          <!-- Family members data will be dynamically populated here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+try {
+    const API_KEY = "patUcczbjIsqwWDfI.7bc6532b761a34f4a4c5059f0d96ed1e289c947032f4b2ccdeea7464c618bc3c";
+    const BASE_ID = "appumexsOR0h76P8Y";
+    const TABLE_NAME = "Aimma records";
+
+    const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+    const headers = {
+        Authorization: `Bearer ${API_KEY}`,
+    };
+
+    const response = await fetch(url, { method: "GET", headers });
+    const result = await response.json();
+
+    const records = result.records || [];
+    const fields = records.map((record) => {
+        // Format the date to Indian Kolkata time zone and "dd/mm/yyyy" format
+        const formattedDate = new Date(record.fields.dob).toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+
+        // Split familyMembers multiline strings into individual records
+        const familyMembersSegments = record.fields.familyMembers.split("\n")
+            .map(segment => {
+                const [serialNo, name, relation, idNo] = segment.split("\\_").map(item => item.trim());
+                return { serialNo, name, relation, idNo };
+            })
+            .filter(item => Object.values(item).some(value => value !== undefined && value !== ''));
+
+        // Create a new object with the formatted date and separated familyMembers
+        return {
+            ...record.fields,
+            dob: formattedDate,
+            familyMembers: familyMembersSegments,
+        };
+    });
+        // Assuming you have only one record for simplicity
+        const profileData = records.length > 0 ? records[0].fields : {};
+
+        // Update profile data
+        document.getElementById("profileData").innerHTML = `
+          <p class="name">${profileData.name || ''}</p> <br>
+          <p class="fName">${profileData.fathersName || ''}</p> <br>
+          <p class="designation">${profileData.designation || ''}</p> <br>
+          <p class="masjid">${profileData.at || ''}</p> <br>
+          <p class="dob">${profileData.dob || ''}</p> <br>
+          <p class="aadhaar">${profileData.aadhaarNumber || ''}</p> <br>
+          <p class="mob">${profileData.phoneNo || ''}</p>
+        `;
+
+        // Update family members data
+const familyTableBody = document.getElementById("familyData");
+
+    fields.forEach((field) => {
+        if (field.familyMembers && field.familyMembers.length > 0) {
+            field.familyMembers.forEach((familyMember) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${familyMember.serialNo || ''}</td>
+                    <td>${familyMember.name || ''}</td>
+                    <td>${familyMember.relation || ''}</td>
+                    <td>${familyMember.idNo || ''}</td>
+                `;
+                familyTableBody.appendChild(row);
+            });
+        }
+    });
+      } catch (error) {
+        console.error(`Failed to fetch data: ${error}`);
+      }
+    });
+  </script>
+
 </body>
 </html>
