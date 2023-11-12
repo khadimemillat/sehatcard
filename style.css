@@ -6,7 +6,7 @@
 }
 
 body{
-    background-color: #fff9f2;
+    background-color: #fff;
 }
 
 .container {
@@ -24,6 +24,7 @@ body{
 }
 
 .picAria {
+    display: none;
     min-height: 60px;
     align-items: baseline;
 }
@@ -43,7 +44,8 @@ body{
     align-items: center;
     align-content: center;
     margin: 60px 40px;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 40px
 }
 
 .colLeft {
