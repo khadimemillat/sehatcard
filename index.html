@@ -92,13 +92,13 @@ try {
 
         // Update profile data
         document.getElementById("profileData").innerHTML = `
-          <p class="name">${profileData.name || ''}</p> <br>
-          <p class="fName">${profileData.fathersName || ''}</p> <br>
-          <p class="designation">${profileData.designation || ''}</p> <br>
-          <p class="masjid">${profileData.at || ''}</p> <br>
-          <p class="dob">${profileData.dob || ''}</p> <br>
-          <p class="aadhaar">${profileData.aadhaarNumber || ''}</p> <br>
-          <p class="mob">${profileData.phoneNo || ''}</p>
+          <p class="name">${profileData.name || '___'}</p> <br>
+          <p class="fName">${profileData.fathersName || '___'}</p> <br>
+          <p class="designation">${profileData.designation || '___'}</p> <br>
+          <p class="masjid">${profileData.at || '___'}</p> <br>
+          <p class="dob">${formattedDate || '___'}</p> <br>
+          <p class="aadhaar">${profileData.aadhaarNumber || '___'}</p> <br>
+          <p class="mob">${profileData.phoneNo || '___'}</p>
         `;
 
         // Update family members data
@@ -109,10 +109,10 @@ const familyTableBody = document.getElementById("familyData");
             field.familyMembers.forEach((familyMember) => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${familyMember.serialNo || ''}</td>
-                    <td>${familyMember.name || ''}</td>
-                    <td>${familyMember.relation || ''}</td>
-                    <td>${familyMember.idNo || ''}</td>
+                    <td>${familyMember.serialNo || '___'}</td>
+                    <td>${familyMember.name || '___'}</td>
+                    <td>${familyMember.relation || '___'}</td>
+                    <td>${familyMember.idNo || '___'}</td>
                 `;
                 familyTableBody.appendChild(row);
             });
